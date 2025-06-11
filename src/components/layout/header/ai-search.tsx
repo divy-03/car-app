@@ -1,3 +1,6 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,22 +9,48 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { SearchIcon } from "lucide-react";
+import { useState } from "react";
 
 const AISearch = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState("");
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger className="ml-auto mr-4 flex items-center gap-1 bg-muted rounded-lg px-4 py-2 hover:bg-muted/80 transition-colors duration-300">
         <SearchIcon className="h-4 2-4" /> Search with AI
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Define what type of car you like</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            You can tell features like color, type, and mode. For example, "I
+            like red sports cars with a convertible roof."
           </DialogDescription>
         </DialogHeader>
+
+        <form className="flex flex-col gap-4" onSubmit={submitHandler}>
+          <Textarea
+            placeholder="Write about your car preferences"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full h-32 p-2 border border-gray-300 rounded-lg"
+            rows={5}
+           
+          />
+
+          <Button disabled={isLoading} className="flex items-center gap-1">
+            {isLoading ? "Searching..." : "Search"}
+            <SearchIcon className="h-4 w-4" />
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   );
