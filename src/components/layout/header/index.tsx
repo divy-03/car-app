@@ -12,6 +12,7 @@ import { Image } from "@imagekit/next";
 import { Separator } from "@/components/ui/separator";
 import { LogOutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Bookmarks } from "./bookmarks";
 
 const Header = () => {
   return (
@@ -59,7 +60,7 @@ const HeaderAuth = async () => {
             <p className="p-2 font-bold">My Profile</p>
             <Separator />
 
-            {/* <Bookmarks /> */}
+            <Bookmarks />
             <form action={logout}>
               <button
                 className="flex w-full  hover:bg-muted items-center gap-1 p-1"
