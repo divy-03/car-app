@@ -3,11 +3,37 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useImages } from "@/store/image-store";
+import { useState } from "react";
+import NextImage from "next/image";
+import { Progress } from "@/components/ui/progress";
+import { useForm } from "react-hook-form";
+import { generateImageSchema, GenerateImageSchema } from "@/lib/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const GenerateImage = () => {
   const { addImage } = useImages();
+
+  const [image, setImage] = useState<{ base64Data: string; name: string }>();
+  const [uploadLoader, setUploadLoader] = useState(false);
+  const [generatingLoader, setGeneratingLoader] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit
+  } = useForm<GenerateImageSchema>({
+    defaultValues: {
+      description: "",
+      name: "",
+    },
+    resolver: zodResolver(generateImageSchema),
+  });
+
+  const handleUpload = async () => {};
 
   return (
     <div>
@@ -26,11 +52,11 @@ export const GenerateImage = () => {
             placeholder="Describe the car you want to generate..."
             rows={6}
             required
-            // {...register("description")}
+            {...register("description")}
           />
-          {/* {errors.description && (
+          {errors.description && (
             <p className="text-sm text-red-500">{errors.description.message}</p>
-          )} */}
+          )}
         </div>
 
         <div className="space-y-2 ">
@@ -46,10 +72,56 @@ export const GenerateImage = () => {
           )} */}
         </div>
 
-        {/* <Button disabled={generatingLoader}>
+        <Button disabled={generatingLoader}>
           {generatingLoader ? "Generating..." : "Generate Image"}
-        </Button */}
+        </Button>
       </form>
+
+      {image && (
+        <>
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">Generated Image</h2>
+            {generatingLoader ? (
+              <Skeleton className="w-full h-96  rounded-lg flex items-center justify-center" />
+            ) : (
+              <>
+                <NextImage
+                  width={1000}
+                  height={1000}
+                  src={image.base64Data}
+                  alt="Generated Car"
+                  className="w-full h-[25rem] object-cover rounded-lg"
+                />
+              </>
+            )}
+          </div>
+          <div className="flex justify-end gap-4 pt-4">
+            <Button
+              variant="outline"
+              onClick={() =>
+                setImage({
+                  base64Data: "",
+                  name: "",
+                })
+              }
+            >
+              Cancel
+            </Button>
+            <Button disabled={uploadLoader} onClick={handleUpload}>
+              {uploadLoader ? "Uploading..." : "Upload Image"}
+            </Button>
+          </div>
+        </>
+      )}
+
+      {progress > 0 && (
+        <div className="mt-4 w-full">
+          <Progress value={progress} className="h-2" />
+          <p className="text-sm text-muted-foreground mt-1">
+            Uploading... {Math.round(progress)}%
+          </p>
+        </div>
+      )}
     </div>
   );
 };
