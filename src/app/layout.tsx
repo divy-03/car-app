@@ -4,6 +4,7 @@ import "./globals.css";
 import { ImageKitProvider } from "@imagekit/next";
 import { ThemeProvider } from "next-themes";
 import Header from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           >
             <Header />
             {children}
+            <Toaster />
           </ImageKitProvider>
         </ThemeProvider>
       </body>

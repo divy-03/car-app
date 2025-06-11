@@ -12,6 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { useForm } from "react-hook-form";
 import { generateImageSchema, GenerateImageSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 export const GenerateImage = () => {
   const { addImage } = useImages();
@@ -24,7 +25,7 @@ export const GenerateImage = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
   } = useForm<GenerateImageSchema>({
     defaultValues: {
       description: "",
@@ -32,6 +33,28 @@ export const GenerateImage = () => {
     },
     resolver: zodResolver(generateImageSchema),
   });
+
+   const onSubmit = async ({ description, name }: GenerateImageSchema) => {
+    const toastId = toast.loading("Generating image...");
+    try {
+      setGeneratingLoader(true);
+
+      if (!description || !name)
+        throw new Error("Description and name are required");
+
+      // generate image
+    //   const data = await generateImage(description, name);
+
+    //   if (!data) throw new Error("Failed to generate image");
+    //   setImage(data);
+
+      toast.success("Image generated successfully", { id: toastId });
+    } catch {
+      toast.error("Error generating image", { id: toastId });
+    } finally {
+      setGeneratingLoader(false);
+    }
+  };
 
   const handleUpload = async () => {};
 
@@ -43,7 +66,7 @@ export const GenerateImage = () => {
       </p>
       <form
         className="mt-4 flex flex-col gap-4"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div className="space-y-2 ">
           <Label htmlFor="description">Description</Label>
