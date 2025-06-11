@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <header className="h-16 flex items-center">
       <Link href={"/"} className="ml-4">
-        lOGO
+        Logo
       </Link>
 
       <AISearch />
