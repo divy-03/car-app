@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { generateImageSchema, GenerateImageSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { generateImage } from "@/lib/actions/cars-action";
 
 export const GenerateImage = () => {
   const { addImage } = useImages();
@@ -43,10 +44,10 @@ export const GenerateImage = () => {
         throw new Error("Description and name are required");
 
       // generate image
-    //   const data = await generateImage(description, name);
+      const data = await generateImage(description, name);
 
-    //   if (!data) throw new Error("Failed to generate image");
-    //   setImage(data);
+      if (!data) throw new Error("Failed to generate image");
+      setImage(data);
 
       toast.success("Image generated successfully", { id: toastId });
     } catch {
@@ -88,11 +89,11 @@ export const GenerateImage = () => {
             id="file-name"
             placeholder="Enter a name for the generated image..."
             required
-            // {...register("name")}
+            {...register("name")}
           />
-          {/* {errors.name && (
+          {errors.name && (
             <p className="text-sm text-red-500">{errors.name.message}</p>
-          )} */}
+          )}
         </div>
 
         <Button disabled={generatingLoader}>
