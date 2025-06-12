@@ -22,7 +22,6 @@ import {
   upload,
 } from "@imagekit/next";
 import { imagekitAuthenticator } from "@/lib/imagekit";
-const abortController = new AbortController();
 
 export const GenerateImage = () => {
   const { addImage } = useImages();
@@ -31,6 +30,7 @@ export const GenerateImage = () => {
   const [uploadLoader, setUploadLoader] = useState(false);
   const [generatingLoader, setGeneratingLoader] = useState(false);
   const [progress, setProgress] = useState(0);
+  const abortController = new AbortController();
 
   const {
     register,
