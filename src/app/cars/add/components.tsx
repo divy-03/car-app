@@ -14,6 +14,15 @@ import { generateImageSchema, GenerateImageSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { generateImage } from "@/lib/actions/cars-action";
+import {
+  ImageKitAbortError,
+  ImageKitInvalidRequestError,
+  ImageKitServerError,
+  ImageKitUploadNetworkError,
+  upload,
+} from "@imagekit/next";
+import { imagekitAuthenticator } from "@/lib/imagekit";
+const abortController = new AbortController();
 
 export const GenerateImage = () => {
   const { addImage } = useImages();
@@ -35,7 +44,7 @@ export const GenerateImage = () => {
     resolver: zodResolver(generateImageSchema),
   });
 
-   const onSubmit = async ({ description, name }: GenerateImageSchema) => {
+  const onSubmit = async ({ description, name }: GenerateImageSchema) => {
     const toastId = toast.loading("Generating image...");
     try {
       setGeneratingLoader(true);
@@ -57,7 +66,62 @@ export const GenerateImage = () => {
     }
   };
 
-  const handleUpload = async () => {};
+  const handleUpload = async () => {
+    if (!image) return toast.error("No image to upload");
+
+    let authParams;
+    setUploadLoader(true);
+    try {
+      authParams = await imagekitAuthenticator();
+    } catch (error) {
+      console.error("Error authenticating with ImageKit", error);
+      setUploadLoader(false);
+      return;
+    }
+
+    const { signature, expire, token, publicKey } = authParams;
+    console.log("ImageKit auth params:", authParams);
+
+    try {
+      const uploadResponse = await upload({
+        signature,
+        expire,
+        token,
+        publicKey,
+        file: image.base64Data,
+        fileName: image.name,
+        folder: "cars",
+        onProgress: (event) => {
+          setProgress((event.loaded / event.total) * 100);
+        },
+        abortSignal: abortController.signal,
+      });
+
+      console.log("Upload response:", uploadResponse);
+
+      if (!uploadResponse.filePath)
+        return toast.error("Failed to upload image");
+      addImage(uploadResponse.filePath);
+
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      // Handle specific error types provided by the ImageKit SDK.
+      if (error instanceof ImageKitAbortError) {
+        console.error("Upload aborted:", error.reason);
+      } else if (error instanceof ImageKitInvalidRequestError) {
+        console.error("Invalid request:", error.message);
+      } else if (error instanceof ImageKitUploadNetworkError) {
+        console.error("Network error:", error.message);
+      } else if (error instanceof ImageKitServerError) {
+        console.error("Server error:", error.message);
+      } else {
+        // Handle any other errors that may occur.
+        console.error("Upload error:", error);
+      }
+    } finally {
+      setUploadLoader(false);
+    }
+  };
 
   return (
     <div>

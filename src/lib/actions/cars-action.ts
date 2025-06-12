@@ -8,7 +8,8 @@ export const generateImage = async (text: string, name: string) => {
 
     const url = `${URL_ENDPOINT}/ik-genimg-prompt-${encodedText}/${imagePath}`;
 
-    const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+    // const privateKey = process.env.IMAGEKIT_PRIVATE_KEY;
+    const privateKey = process.env.NEXT_PUBLIC_IMAGEKIT_PRIVATE_KEY;
     if (!privateKey) throw new Error("IMAGEKIT_PRIVATE_KEY is not defined");
 
     const base64Key = btoa(privateKey + ":");
