@@ -1,12 +1,13 @@
 export const carTypes = [
   "SEDAN",
   "SUV",
-  "TRUCK",
+  "HATCHBACK",
   "COUPE",
   "CONVERTIBLE",
-  "HATCHBACK",
-  "MINIVAN",
+  "PICKUP",
+  "VAN",
   "WAGON",
+  "CROSSOVER",
   "SPORTS",
 ] as const;
 

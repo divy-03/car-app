@@ -7,7 +7,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model User {
   id                String             @id @default(cuid())
   name              String?
@@ -19,7 +18,6 @@ model User {
   updatedAt         DateTime           @updatedAt
   cars              Car[]
   savedCars         Car[]              @relation("SavedCars")
-  Authenticator     Authenticator[]
   testDriveRequests TestDriveRequest[]
   messages          Message[]
 }
@@ -43,30 +41,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@id([identifier, token])
-}
-
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, credentialID])
 }
 
 model Car {
@@ -97,6 +71,28 @@ model Car {
   testDriveRequests TestDriveRequest[]
 }
 
+model CarSpecification {
+  id             String   @id @default(cuid())
+  engineCapacity Int? //cc
+  doors          Int? //2-4
+  seats          Int? //2-7
+  topSpeed       Int? //km/h
+  acceleration   Float? //0-100 km/h
+  horsepower     Int? //hp
+  torque         Int? //Nm
+  length         Int? //cm
+  width          Int? //cm
+  height         Int? //cm
+  weight         Int? //kg
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  carId String
+  car   Car    @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+  @@unique([carId])
+}
+
 model CarSeller {
   id         String   @id @default(cuid())
   name       String
@@ -116,46 +112,14 @@ model CarSeller {
   car   Car    @relation(fields: [carId], references: [id], onDelete: Cascade)
 }
 
-model CarSpecification {
-  id             String @id @default(cuid())
-  engineCapacity Int? // in cc
-  acceleration   Float? // 0-100 km/h in seconds
-  doors          Int? // number of doors
-  Seats          Int? // number of seats
-  length         Int? // in cm
-  width          Int? // in cm
-  height         Int? // in cm
-  horsepower     Int? // in hp
-  torque         Int? // in Nm
-  topSpeed       Int? // in km/h
-  weight         Int? // in kg
-  carId          String
-  car            Car    @relation(fields: [carId], references: [id], onDelete: Cascade)
-
-  @@unique([carId])
-}
-
-model Message {
-  id        String   @id @default(cuid())
-  content   String
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  userId    String
-  receiver  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model TestDriveRequest {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   carId     String
   userId    String
   date      DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status    Status   @default(PENDING)
+  status    RequestStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   car  Car  @relation(fields: [carId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -163,11 +127,23 @@ model TestDriveRequest {
   @@unique([carId, userId])
 }
 
-enum Status {
+model Message {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  content   String
+  userId    String
+  receiver  User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum RequestStatus {
   PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
+  APPROVED
+  REJECTED
 }
 
 enum Transmission {
@@ -178,12 +154,13 @@ enum Transmission {
 enum CarType {
   SEDAN
   SUV
-  TRUCK
+  HATCHBACK
   COUPE
   CONVERTIBLE
-  HATCHBACK
-  MINIVAN
+  PICKUP
+  VAN
   WAGON
+  CROSSOVER
   SPORTS
 }
 
