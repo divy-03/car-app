@@ -5,12 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { useImages } from "@/store/image-store";
 import { useCallback, useEffect, useState } from "react";
 import NextImage from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { useForm } from "react-hook-form";
-import { addCarSchema, AddCarSchema, generateImageSchema, GenerateImageSchema } from "@/lib/zod";
+import {
+  addCarSchema,
+  AddCarSchema,
+  generateImageSchema,
+  GenerateImageSchema,
+} from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { generateImage } from "@/lib/actions/cars-action";
@@ -23,9 +29,21 @@ import {
   upload,
 } from "@imagekit/next";
 import { imagekitAuthenticator } from "@/lib/imagekit";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Badge, LucideWandSparkles, LucideX } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { LucideWandSparkles, LucideX } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CarFuelType, carTypes } from "@/constants/carTypes";
 import { CarType } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -225,7 +243,7 @@ export const GenerateImage = () => {
 export const AddCarForm = () => {
   const { images, removeImage, addImage, clearImages } = useImages();
 
-  console.log("images", images);
+  // console.log("images", images);
 
   const {
     register,
@@ -609,12 +627,13 @@ export const AddCarForm = () => {
             )}
             <div className="flex flex-wrap gap-2">
               {colors.map((c, idx) => (
-                <Badge key={idx} className="flex items-center gap-1">
+                <Badge
+                  key={idx}
+                  className="flex items-center gap-1 cursor-pointer"
+                  onClick={() => removeColor(c)}
+                >
                   {c}
-                  <LucideX
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeColor(c)}
-                  />
+                  <LucideX className="h-3 w-3" />
                 </Badge>
               ))}
             </div>
@@ -640,12 +659,13 @@ export const AddCarForm = () => {
             )}
             <div className="flex flex-wrap gap-2">
               {features.map((f, idx) => (
-                <Badge key={idx} className="flex items-center gap-1">
+                <Badge
+                  key={idx}
+                  className="flex items-center gap-1 cursor-pointer"
+                  onClick={() => removeFeature(f)}
+                >
                   {f}
-                  <LucideX
-                    className="h-3 w-3 cursor-pointer"
-                    onClick={() => removeFeature(f)}
-                  />
+                  <LucideX className="h-3 w-3 " />
                 </Badge>
               ))}
             </div>
