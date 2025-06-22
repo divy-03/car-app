@@ -83,7 +83,16 @@ export default function Home({ searchParams }: Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Suspense
-            fallback={<div className="h-48 bg-gray-200 animate-pulse"></div>}
+            fallback={
+              <div className="w-full h-[360px] bg-[#1a1a1a] p-4 rounded-xl shadow-md animate-pulse flex flex-col justify-between">
+                <div className="h-48 bg-gray-700 rounded mb-4" />
+                <div className="space-y-2">
+                  <div className="h-4 w-3/4 bg-gray-700 rounded" />
+                  <div className="h-4 w-1/2 bg-gray-700 rounded" />
+                  <div className="h-4 w-1/3 bg-gray-700 rounded" />
+                </div>
+              </div>
+            }
           >
             <FeaturedCars searchParams={searchParams} />
           </Suspense>
