@@ -1,21 +1,21 @@
-// "use server";
+"use server";
 
-// import { aiService } from "../ai";
-// import { extractJSON, isNotCarFound } from "../utils";
+import { aiService } from "../ai";
+import { extractJSON, isNotCarFound } from "../utils";
 
-// export const findCar = async (carDescription: string) => {
-//   const result = await aiService.searchAgent(carDescription);
+export const findCar = async (carDescription: string) => {
+  const result = await aiService.searchAgent(carDescription);
 
-//   const notFound = isNotCarFound(result);
+  const notFound = isNotCarFound(result);
 
-//   if (notFound) throw new Error("No car found");
+  if (notFound) throw new Error("No car found");
 
-//   return result;
-// };
+  return result;
+};
 
-// export const autoGenerateCar = async (carName: string) => {
-//   const response = await aiService.generateCarAgent(carName);
-//   const parsed = extractJSON(response);
-
-//   return parsed;
-// };
+export const autoGenerateCar = async (carName: string) => {
+  const response = await aiService.generateCarAgent(carName);
+  const parsed = extractJSON(response);
+  delete parsed.images;
+  return parsed;
+};

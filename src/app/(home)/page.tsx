@@ -13,7 +13,7 @@ import { Image } from "@imagekit/next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Filters } from "./filters";
-// import { getCars } from "@/lib/actions/cars-action";
+import { getCars } from "@/lib/actions/cars-action";
 // import { Car } from "@prisma/client";
 
 type Props = {
@@ -119,17 +119,7 @@ const FeaturedCars = async ({ searchParams }: Props) => {
   const page = Number(params.get("page")) || 1;
   const type = params.get("type") || "all";
 
-  // const cars = await getCars({ page, type });
-  const cars = [
-    {
-      id: "1",
-      images: ["carurl"],
-      name: "BMW",
-      year: 12,
-      mileage: 21,
-      price: 12200,
-    },
-  ];
+  const cars = await getCars({ page, type });
 
   return cars.map((car) => (
     <Card key={car.id} className="overflow-hidden">

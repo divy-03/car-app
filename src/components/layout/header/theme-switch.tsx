@@ -21,8 +21,6 @@ const ThemSwitch = () => {
       <MoonIcon />
     </button>
   );
-
-  return <div>ThemSwitch</div>;
 };
 
 export default ThemSwitch;

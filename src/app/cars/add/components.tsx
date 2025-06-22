@@ -19,7 +19,7 @@ import {
 } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { generateImage } from "@/lib/actions/cars-action";
+import { addNewCar, generateImage } from "@/lib/actions/cars-action";
 import {
   Image,
   ImageKitAbortError,
@@ -47,6 +47,7 @@ import {
 import { CarFuelType, carTypes } from "@/constants/carTypes";
 import { CarType } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { autoGenerateCar } from "@/lib/actions/ai-action";
 const STORAGE_KEY = "new-car-details";
 
 export const GenerateImage = () => {
@@ -242,6 +243,7 @@ export const GenerateImage = () => {
 
 export const AddCarForm = () => {
   const { images, removeImage, addImage, clearImages } = useImages();
+  const [imgUrl, setImgUrl] = useState("");
 
   // console.log("images", images);
 
@@ -351,7 +353,7 @@ export const AddCarForm = () => {
 
       try {
         setSubmitHandlerLoading(true);
-        // await addNewCar(data);
+        await addNewCar(data);
         toast.success("Car listing added successfully", {
           id: toastId,
         });
@@ -380,28 +382,28 @@ export const AddCarForm = () => {
       setIsGenerateAILoading(true);
 
       // Generate Info
-      // const result = await autoGenerateCar(watch("name"));
+      const result = await autoGenerateCar(watch("name"));
 
-      // if (!result) {
-      //   toast.error("Failed to generate car details");
-      //   return;
-      // }
+      if (!result) {
+        toast.error("Failed to generate car details");
+        return;
+      }
 
-      // setColors(result.colors);
-      // setFeatures(result.features);
+      setColors(result.colors);
+      setFeatures(result.features);
 
-      // // set generated data to form state
-      // Object.entries(result).forEach(([key, value]) => {
-      //   if (key === "images") return;
+      // set generated data to form state
+      Object.entries(result).forEach(([key, value]) => {
+        if (key === "images") return;
 
-      //   if (key === "sellerImage") {
-      //     setValue("sellerImage", "/default-image.jpg");
-      //     return;
-      //   }
-      //   setValue(key as keyof AddCarSchema, value as string);
-      // });
+        if (key === "sellerImage") {
+          setValue("sellerImage", "/default-image.jpg");
+          return;
+        }
+        setValue(key as keyof AddCarSchema, value as string);
+      });
 
-      // localStorage.setItem(STORAGE_KEY, JSON.stringify(result));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(result));
 
       toast.success("Car details generated successfully");
     } catch (error) {
@@ -873,12 +875,14 @@ export const AddCarForm = () => {
                 <Input
                   id="mainImage"
                   placeholder="Enter the URL of the image (direct link image path)"
+                  onChange={(e) => setImgUrl(e.target.value)}
                 />
                 <Button
                   type="button"
                   onClick={() =>
                     addImage(
-                      "cars/7f5079f1-9a92-4afb-978e-7d040791720c_REwBhP4DL.jpg"
+                      // "https://ik.imagekit.io/excl/cars/ambassador_9U3ZRRWas.jpg?updatedAt=1749809415854"
+                      imgUrl.trim() || "https://ik.imagekit.io/excl/cars/ambassador_9U3ZRRWas.jpg?updatedAt=1749809415854"
                     )
                   }
                 >
