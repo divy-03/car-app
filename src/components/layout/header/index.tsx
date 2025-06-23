@@ -16,7 +16,7 @@ import { Bookmarks } from "./bookmarks";
 
 const Header = () => {
   return (
-    <header className="h-16 flex items-center">
+    <header className="sticky top-0 z-50 h-16 flex items-center bg-background/70 backdrop-blur border-b">
       <Link href={"/"} className="ml-4">
         Logo
       </Link>

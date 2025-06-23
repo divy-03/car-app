@@ -18,7 +18,7 @@ const AISearch = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
 
-  // 🔥 Shortcut handler for Ctrl + K
+  // Shortcut handler for Ctrl + K
   useEffect(() => {
     const downHandler = (e: KeyboardEvent) => {
       // Ctrl/Cmd + K

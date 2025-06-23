@@ -131,7 +131,7 @@ const FeaturedCars = async ({ searchParams }: Props) => {
   const cars = await getCars({ page, type });
 
   return cars.map((car) => (
-    <Card key={car.id} className="overflow-hidden">
+    <Card key={car.id} className="overflow-hidden hover:scale-105 transition-transform duration-300">
       <div className="relative h-48">
         <Image
           src={car.images[0]}
