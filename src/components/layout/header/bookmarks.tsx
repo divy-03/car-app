@@ -9,12 +9,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-// import { getBookmarkCars } from "@/lib/actions/user-action";
+import { getBookmarkCars } from "@/lib/actions/user-action";
 import { Image } from "@imagekit/next";
 import { BookmarkIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-// import { RemoveBookmark } from "./remove-bookmark";
+import { RemoveBookmark } from "./remove-bookmark";
 
 export const Bookmarks = async () => {
   return (
@@ -34,11 +34,52 @@ export const Bookmarks = async () => {
         <Suspense fallback={<Skeleton className=" h-[calc(100vh-64px)]" />}>
           <ScrollArea className="h-[calc(100vh-64px)] p-4 ">
             <div className="flex flex-col gap-4 ">
-              {/* <MainContent /> */}
+              <MainContent />
             </div>
           </ScrollArea>
         </Suspense>
       </SheetContent>
     </Sheet>
   );
+};
+
+const MainContent = async () => {
+  const cars = await getBookmarkCars();
+
+  if (!cars) return <p className="text-center">No cars found</p>;
+
+  if (cars.length === 0) return <p className="text-center">No cars saved</p>;
+
+  return cars.map((car) => (
+    <Card key={car.id} className="overflow-hidden">
+      <div className="relative h-48">
+        <Image
+          src={car.images[0]}
+          alt={car.name}
+          fill
+          className="object-cover"
+        />
+
+        <RemoveBookmark carId={car.id} />
+      </div>
+      <CardContent className="p-4">
+        <div className="flex justify-between items-start mb-2">
+          <div>
+            <h3 className="text-xl font-semibold">{car.name}</h3>
+            <p className="text-sm text-gray-500">
+              {car.year} • {car.mileage} miles
+            </p>
+          </div>
+          <p className="text-xl font-bold text-primary">
+            ${car.price.toLocaleString()}
+          </p>
+        </div>
+        <div className="flex gap-2 mt-4">
+          <Button className="w-full" asChild>
+            <Link href={`/cars/${car.id}`}>View Details</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  ));
 };

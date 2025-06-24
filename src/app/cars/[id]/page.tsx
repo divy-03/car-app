@@ -32,6 +32,13 @@ import {
   getSellerInfo,
 } from "@/lib/actions/cars-action";
 import { getMyProfile } from "@/lib/actions/user-action";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export async function generateStaticParams() {
   const cars = await getAllCars();
@@ -161,6 +168,29 @@ const MainContent = async ({ params }: Props) => {
         </CardContent>
       </Card>
 
+      <Card className="mb-8">
+        {car.images.length > 0 && (
+          <Carousel className="relative">
+            <CarouselContent>
+              {car.images.map((item, idx) => (
+                <CarouselItem key={idx} className="relative">
+                  <Image
+                    src={item}
+                    width={1000}
+                    height={500}
+                    alt={`Image-${idx}`}
+                    className="w-full h-96 object-cover"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+
+            <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+            <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+          </Carousel>
+        )}
+      </Card>
+
       <Tabs defaultValue="details" className="mb-8">
         <TabsList className="w-full">
           <TabsTrigger value="details" className="flex-1">
@@ -261,7 +291,9 @@ const MainContent = async ({ params }: Props) => {
                         style={{
                           backgroundColor: color,
                         }}
-                      />
+                      >
+                        {color}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -295,6 +327,9 @@ const MainContent = async ({ params }: Props) => {
 
 const Sidebar = async ({ params }: Props) => {
   if (!params.id) return notFound();
+  // const car = await getCarById(params.id);
+
+  // if (!car) return notFound();
 
   const seller = await getSellerInfo(params.id);
 
@@ -302,7 +337,7 @@ const Sidebar = async ({ params }: Props) => {
 
   return (
     <div>
-      <Card className="sticky top-4">
+      <Card className="sticky top-20">
         <CardContent className="p-6">
           <div className="flex items-center gap-4 mb-6">
             <div className="relative h-16 w-16">
@@ -328,6 +363,25 @@ const Sidebar = async ({ params }: Props) => {
           <TestDriveForm carId={params.id} />
         </CardContent>
       </Card>
+      {/* {car.images.length > 0 && (
+          <Carousel>
+            <CarouselContent>
+              {car.images.map((item, idx) => (
+                <CarouselItem key={idx} className="relative">
+                  <Image
+                    src={item}
+                    width={1000}
+                    height={500}
+                    alt={`Image-${idx}`}
+                    className="w-full h-96 object-cover"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        )} */}
     </div>
   );
 };

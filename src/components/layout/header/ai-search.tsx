@@ -14,7 +14,9 @@ import { SearchIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const AISearch = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const isLoading = false; // Placeholder for loading state
+
   const [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
 
