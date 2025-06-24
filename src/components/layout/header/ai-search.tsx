@@ -42,7 +42,7 @@ const AISearch = () => {
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger className="ml-auto mr-4 flex items-center gap-1 bg-muted rounded-lg px-4 py-2 hover:bg-muted/80 transition-colors duration-300">
-        <SearchIcon className="h-4 w-4" /> Search with AI "CTRL+K"
+        <SearchIcon className="h-4 w-4" /> Search with AI &quot;CTRL+K&quot;
         
       </DialogTrigger>
 
@@ -50,7 +50,7 @@ const AISearch = () => {
         <DialogHeader>
           <DialogTitle>Define what type of car you like</DialogTitle>
           <DialogDescription>
-            You can tell features like color, type, and mode. For example, "I like red sports cars with a convertible roof."
+            You can tell features like color, type, and mode. For example, &quot;I like red sports cars with a convertible roof.&quot;
           </DialogDescription>
         </DialogHeader>
 
