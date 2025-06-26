@@ -14,7 +14,16 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Filters } from "./filters";
 import { getCars } from "@/lib/actions/cars-action";
-// import { Car } from "@prisma/client";
+
+type Car = {
+  id: string;
+  name: string;
+  brand: string;
+  year: number;
+  mileage: number;
+  price: number;
+  images: string[];
+};
 
 export default async function Home(props: {
   searchParams: Promise<{ type?: string; page?: string }>;
@@ -130,7 +139,8 @@ const FeaturedCars = async ({
   const type = searchParams?.type || "all";
   const page = Number(searchParams?.page || "1");
 
-  const cars = await getCars({ page, type });
+  // Explicitly type cars as Car[]
+  const cars: Car[] = await getCars({ page, type });
 
   if (!cars || cars.length === 0) {
     return (
