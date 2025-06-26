@@ -11,12 +11,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  const carsUrls: MetadataRoute.Sitemap = cars.map((i) => ({
-    url: `${baseUrl}/cars/${i.id}`,
-    lastModified: new Date(i.updatedAt),
-    changeFrequency: "monthly",
-    priority: 1,
-  }));
+  const carsUrls: MetadataRoute.Sitemap = cars.map(
+    (i: { id: string; updatedAt: Date }) => ({
+      url: `${baseUrl}/cars/${i.id}`,
+      lastModified: new Date(i.updatedAt),
+      changeFrequency: "monthly",
+      priority: 1,
+    })
+  );
 
   return [
     {
