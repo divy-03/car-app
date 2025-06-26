@@ -4,8 +4,7 @@ import { AddCarSchema, contactSellerSchema, ContactSellerSchema } from "../zod";
 import { auth } from "@/auth";
 import { prisma } from "../prisma";
 import { unstable_cache as cache } from "next/cache";
-import { carTypes } from "@/constants/carTypes";
-import { CarType } from "@prisma/client";
+import { carTypes, CarType } from "@/constants/carTypes";
 
 export const generateImage = async (text: string, name: string) => {
   try {
