@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { prisma } from "../prisma";
 import { unstable_cache as cache } from "next/cache";
 import { carTypes, CarType } from "@/constants/carTypes";
+import { Prisma } from "@prisma/client";
 
 export const generateImage = async (text: string, name: string) => {
   try {
@@ -59,7 +60,7 @@ export const addNewCar = async (carData: AddCarSchema) => {
 
   if (!user) throw new Error("User not found");
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const {
       name,
       brand,
