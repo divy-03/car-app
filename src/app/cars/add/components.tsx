@@ -44,8 +44,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CarFuelType, carTypes } from "@/constants/carTypes";
-import { CarType } from "@prisma/client";
+import { CarFuelType, carTypes, CarType } from "@/constants/carTypes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { autoGenerateCar } from "@/lib/actions/ai-action";
 const STORAGE_KEY = "new-car-details";
