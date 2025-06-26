@@ -16,7 +16,6 @@ import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { string } from "zod";
 
 const AISearch = () => {
   const router = useRouter();
