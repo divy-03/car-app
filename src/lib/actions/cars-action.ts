@@ -177,7 +177,7 @@ export const getAllCars = cache(
 
 export const getCars = cache(
   async ({ page = 1, type = "all" }: { page?: number; type?: string }) => {
-    const limit = 8;
+    const limit = 6;
     const offset = (page - 1) * limit;
 
     const allowedTypes = type

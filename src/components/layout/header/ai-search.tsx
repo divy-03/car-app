@@ -67,7 +67,7 @@ const AISearch = () => {
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger className="ml-auto mr-4  flex items-center gap-1  bg-muted rounded-lg px-4 py-2 hover:bg-muted">
         <SearchIcon className="h-4 w-4" /> Search with AI
-        <Badge>Ctrl+K</Badge>
+        <Badge className="ml-1">Ctrl+K</Badge>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -3,7 +3,7 @@
 import { bookmarkCar } from "@/lib/actions/cars-action";
 import { LucideX } from "lucide-react";
 import { useFormStatus } from "react-dom";
-export const RemoveBookmark = async ({ carId }: { carId: string }) => {
+export const RemoveBookmark = ({ carId }: { carId: string }) => {
   return (
     <form
       action={async () => {

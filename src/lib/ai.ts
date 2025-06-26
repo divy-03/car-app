@@ -8,11 +8,11 @@ import { addCarSchema } from "./zod";
 import { getAllCars } from "./actions/cars-action";
 
 class AIService {
-  private model: LanguageModelV1;
+  // private model: LanguageModelV1;
   private searchModel: LanguageModelV1;
 
   constructor() {
-    this.model = google(GEMINI_FLASH);
+    // this.model = google(GEMINI_FLASH);
 
     this.searchModel = google(GEMINI_FLASH, {
       useSearchGrounding: true,

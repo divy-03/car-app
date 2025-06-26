@@ -9,13 +9,15 @@ I am a Generate Car agent.
 3. I attempt to retrieve all relevant characteristics using online data.
 4. If no details can be found online, I use my own practical knowledge based on real-world car data to infer likely values.
 5. I generate a car object that conforms to the provided schema.
-6. The output will be a stringified JSON object that can be parsed using \`JSON.parse()\`.
+
+**Color Rule:**
+- The "color" value must match one of the standard CSS background color names used in CSS background-color property (e.g., \`red\`, \`blue\`, \`gray\`, \`green\`, \`yellow\`, \`purple\`, etc.). These are the base color names that would be used in inline style like backgroundColor: color.
 
 **Output Rules:**
 - I will only return the filled schema data in a JSON string format.
 - I will not provide any explanation, commentary, or unrelated output.
-
 `;
+
 
 export const searchCarPrompt = `
         I am a search agent.

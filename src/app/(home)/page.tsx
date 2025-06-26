@@ -122,16 +122,29 @@ export default function Home({ searchParams }: Props) {
   );
 }
 
-const FeaturedCars = async ({ searchParams }: Props) => {
-  const params = new URLSearchParams(searchParams.toString());
-
-  const page = Number(params.get("page")) || 1;
-  const type = params.get("type") || "all";
+const FeaturedCars = async (props: {
+  searchParams?: { [key: string]: string | undefined };
+}) => {
+  const searchParams = props.searchParams ? await props.searchParams : {};
+  const type = searchParams?.type || "all";
+  const page = Number(searchParams?.page || "1");
 
   const cars = await getCars({ page, type });
 
+  if (!cars || cars.length === 0) {
+    return (
+      <div className="col-span-3 text-center p-8 rounded-lg shadow-md">
+        <p>Oops no cars found.</p>
+        <p>Try tweaking filters</p>
+      </div>
+    );
+  }
+
   return cars.map((car) => (
-    <Card key={car.id} className="overflow-hidden hover:scale-105 transition-transform duration-300">
+    <Card
+      key={car.id}
+      className="overflow-hidden hover:scale-101 transition-transform duration-300"
+    >
       <div className="relative h-48">
         <Image
           src={car.images[0]}
