@@ -35,8 +35,29 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+type Cars = {
+  id: string;
+  name: string;
+  brand: string;
+  year: number;
+  mileage: number;
+  price: number;
+  images: string[];
+};
+
+type Car = {
+  id: string;
+  name: string;
+  brand: string;
+  year: number;
+  mileage: number;
+  price: number;
+  images: string[];
+  savedBy: { id: string }[];
+};
+
 export async function generateStaticParams() {
-  const cars = await getAllCars();
+  const cars: Cars[] = await getAllCars();
   return cars.map((car) => ({
     id: car.id.toString(),
   }));
@@ -85,7 +106,7 @@ export default async function CarPage(props: Props) {
 const Cover = async (props: { params: { id?: string } }) => {
   const params = props.params;
   if (!params.id) return notFound();
-  const car = await getCarById(params.id);
+  const car: Car = await getCarById(params.id);
 
   if (!car) return notFound();
 
