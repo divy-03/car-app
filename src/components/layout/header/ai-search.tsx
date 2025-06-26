@@ -46,12 +46,23 @@ const AISearch = () => {
     setIsLoading(true);
 
     try {
-      const result: "No car found" | "Error generating car search" | string =
-        await findCar(description);
+      const result: string = await findCar(description);
 
-      const carId = string().parse(result);
+      // If the AI says "No car found"
+      if (result.trim() === "No car found") {
+        toast.error("No car found. Try changing your prompt.");
+        return;
+      }
+
+      // Try to extract the first valid car id (CUID) from the response
+      const match = result.match(/\b(c[a-z0-9]{24,})\b/i);
+      const carId = match ? match[1] : null;
+
+      if (!carId) {
+        throw new Error("Could not find the car. Try changing your prompt.");
+      }
+
       router.replace(`/cars/${carId}`);
-
       toast.success(`Car found with ID: ${carId}`);
       setDescription("");
       setIsOpen(false);
