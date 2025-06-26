@@ -4,11 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import {
-//   getAllCars,
-//   getCarById,
-//   getSellerInfo,
-// } from "@/lib/actions/cars-action";
 import {
   Calendar,
   Clock,
