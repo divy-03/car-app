@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Car-App",
+  title: "Carido",
   description: "Find your perfect car with ease",
 };
 
