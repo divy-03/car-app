@@ -42,9 +42,11 @@ export async function generateStaticParams() {
   }));
 }
 
-type Props = { params: { id?: string } };
+type Props = { params: Promise<{ id?: string }> };
 
-export default async function CarPage({ params }: Props) {
+export default async function CarPage(props: Props) {
+  const params = await props.params;
+
   return (
     <div className="container mx-auto py-10">
       <main className="min-h-screen bg-white dark:bg-zinc-900 pb-16">
@@ -80,7 +82,8 @@ export default async function CarPage({ params }: Props) {
   );
 }
 
-const Cover = async ({ params }: Props) => {
+const Cover = async (props: { params: { id?: string } }) => {
+  const params = props.params;
   if (!params.id) return notFound();
   const car = await getCarById(params.id);
 
@@ -104,7 +107,8 @@ const Cover = async ({ params }: Props) => {
   );
 };
 
-const MainContent = async ({ params }: Props) => {
+const MainContent = async (props: { params: { id?: string } }) => {
+  const params = props.params;
   if (!params.id) return notFound();
 
   const car = await getCarById(params.id);
@@ -320,7 +324,8 @@ const MainContent = async ({ params }: Props) => {
   );
 };
 
-const Sidebar = async ({ params }: Props) => {
+const Sidebar = async (props: { params: { id?: string } }) => {
+  const params = props.params;
   if (!params.id) return notFound();
   // const car = await getCarById(params.id);
 

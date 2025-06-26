@@ -16,10 +16,10 @@ import { Filters } from "./filters";
 import { getCars } from "@/lib/actions/cars-action";
 // import { Car } from "@prisma/client";
 
-type Props = {
-  searchParams: { type: string; page: string };
-};
-export default function Home({ searchParams }: Props) {
+export default async function Home(props: {
+  searchParams: Promise<{ type?: string; page?: string }>;
+}) {
+  const searchParams = await props.searchParams;
   return (
     <main className="min-h-screen ">
       {/* Hero Section */}
@@ -122,10 +122,11 @@ export default function Home({ searchParams }: Props) {
   );
 }
 
-const FeaturedCars = async (props: {
+const FeaturedCars = async ({
+  searchParams,
+}: {
   searchParams?: { [key: string]: string | undefined };
 }) => {
-  const searchParams = props.searchParams ? await props.searchParams : {};
   const type = searchParams?.type || "all";
   const page = Number(searchParams?.page || "1");
 

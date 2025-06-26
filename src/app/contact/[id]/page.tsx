@@ -9,11 +9,11 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 };
-export default function ContactSeller({ params }: Props) {
+
+export default async function ContactSeller(props: Props) {
+  const params = await props.params;
   return (
     <main className="min-h-screen bg-gray-50 py-16 dark:bg-zinc-900">
       <div className="max-w-7xl mx-auto px-4">
@@ -43,7 +43,7 @@ const Loader = () => {
   );
 };
 
-const MainContent = async ({ params }: Props) => {
+const MainContent = async ({ params }: { params: { id: string } }) => {
   const car = await getCarById(params.id);
 
   if (!car) {
