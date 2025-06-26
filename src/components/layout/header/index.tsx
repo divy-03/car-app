@@ -13,11 +13,19 @@ import { Separator } from "@/components/ui/separator";
 import { LogOutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Bookmarks } from "./bookmarks";
+import NextImage from "next/image";
 
 const Header = () => {
   return (
     <header className="sticky top-0 z-50 h-16 flex items-center bg-background/70 backdrop-blur border-b">
-      <Link href={"/"} className="ml-4">
+      <Link href={"/"} className="ml-4 flex items-center gap-2">
+        <NextImage
+          src="/logo.png"
+          alt="Carido Logo"
+          className="h-10 w-auto dark:invert"
+          width={40}
+          height={40}
+        />
         Carido
       </Link>
 
