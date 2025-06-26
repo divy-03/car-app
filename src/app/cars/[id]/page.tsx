@@ -56,6 +56,12 @@ type Car = {
   savedBy: { id: string }[];
 };
 
+type Seller = {
+  name?: string;
+  carId?: string;
+  // ...other fields if needed
+} | null;
+
 export async function generateStaticParams() {
   const cars: Cars[] = await getAllCars();
   return cars.map((car) => ({
@@ -352,7 +358,7 @@ const Sidebar = async (props: { params: { id?: string } }) => {
 
   // if (!car) return notFound();
 
-  const seller = await getSellerInfo(params.id);
+  const seller: Seller | null = await getSellerInfo(params.id);
 
   if (!seller) return notFound();
 
