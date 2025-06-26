@@ -16,6 +16,18 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { RemoveBookmark } from "./remove-bookmark";
 
+
+type Car = {
+  id: string;
+  name: string;
+  brand: string;
+  year: number;
+  mileage: number;
+  price: number;
+  images: string[];
+};
+
+
 export const Bookmarks = async () => {
   return (
     <Sheet>
@@ -44,13 +56,13 @@ export const Bookmarks = async () => {
 };
 
 const MainContent = async () => {
-  const cars = await getBookmarkCars();
+  const cars: Car[] | null = await getBookmarkCars();
 
   if (!cars) return <p className="text-center">No cars found</p>;
 
   if (cars.length === 0) return <p className="text-center">No cars saved</p>;
 
-  return cars.map((car) => (
+  return cars.map((car: Car) => (
     <Card key={car.id} className="overflow-hidden">
       <div className="relative h-48">
         <Image
