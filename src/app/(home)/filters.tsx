@@ -32,7 +32,7 @@ export const Filters = () => {
     const carTypeQuery = queries.find((q) => q.startsWith("type="));
     const carTypes = carTypeQuery ? carTypeQuery.split("=")[1].split(",") : [];
 
-    setActiveFilters(carTypes.map((t) => t.toUpperCase()));
+    setActiveFilters(carTypes.map((t:string) => t.toUpperCase()));
     console.log(carTypes);
   }, []);
 
@@ -43,7 +43,7 @@ export const Filters = () => {
 
       const newQuery =
         queries.length > 0
-          ? queries.map((q) => {
+          ? queries.map((q:string) => {
               if (q.startsWith("type=")) {
                 return `type=${activeFilters.filter(Boolean).join(",")}`;
               }
@@ -69,7 +69,7 @@ export const Filters = () => {
       <PopoverContent className="w-full">
         <h5 className=" font-bold">Car Type</h5>
         <div className="flex flex-col gap-1 p-2">
-          {carTypes.map((i) => (
+          {carTypes.map((i:string) => (
             <div key={i} className="flex items-center space-x-2">
               <Checkbox
                 id={i}

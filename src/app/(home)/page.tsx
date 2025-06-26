@@ -115,15 +115,19 @@ export default async function Home(props: {
             Why Choose Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CarIcon className="h-8 w-8" />
+            {features.map(
+              (feature: { title: string; description: string }, index) => (
+                <div key={index} className="text-center">
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CarIcon className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400">{feature.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </section>
@@ -151,7 +155,7 @@ const FeaturedCars = async ({
     );
   }
 
-  return cars.map((car) => (
+  return cars.map((car: Car) => (
     <Card
       key={car.id}
       className="overflow-hidden hover:scale-101 transition-transform duration-300"

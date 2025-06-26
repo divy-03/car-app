@@ -64,7 +64,7 @@ type Seller = {
 
 export async function generateStaticParams() {
   const cars: Cars[] = await getAllCars();
-  return cars.map((car) => ({
+  return cars.map((car: Cars) => ({
     id: car.id.toString(),
   }));
 }
@@ -183,7 +183,7 @@ const MainContent = async (props: { params: { id?: string } }) => {
 
           <ScrollArea>
             <div className="flex gap-2 py-4">
-              {car.features.map((feature) => (
+              {car.features.map((feature: string) => (
                 <Badge className="flex-none" key={feature} variant="secondary">
                   {feature}
                 </Badge>
@@ -198,7 +198,7 @@ const MainContent = async (props: { params: { id?: string } }) => {
         {car.images.length > 0 && (
           <Carousel className="relative">
             <CarouselContent>
-              {car.images.map((item, idx) => (
+              {car.images.map((item: string, idx: number) => (
                 <CarouselItem key={idx} className="relative">
                   <Image
                     src={item}
@@ -310,7 +310,7 @@ const MainContent = async (props: { params: { id?: string } }) => {
                 <div className="space-y-2">
                   <p className="font-semibold">Colors</p>
                   <ul className="text-sm text-gray-600 flex gap-2 items-center">
-                    {car.colors.map((color) => (
+                    {car.colors.map((color: string) => (
                       <li
                         className="w-10 h-10 rounded-md"
                         key={color}
@@ -390,25 +390,6 @@ const Sidebar = async (props: { params: { id?: string } }) => {
           <TestDriveForm carId={params.id} />
         </CardContent>
       </Card>
-      {/* {car.images.length > 0 && (
-          <Carousel>
-            <CarouselContent>
-              {car.images.map((item, idx) => (
-                <CarouselItem key={idx} className="relative">
-                  <Image
-                    src={item}
-                    width={1000}
-                    height={500}
-                    alt={`Image-${idx}`}
-                    className="w-full h-96 object-cover"
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        )} */}
     </div>
   );
 };
