@@ -156,7 +156,7 @@ export const addNewCar = async (carData: AddCarSchema) => {
     return car;
   });
 
-  console.log("Car added successfully");
+  // console.log("Car added successfully");
   revalidatePath("/");
 };
 
