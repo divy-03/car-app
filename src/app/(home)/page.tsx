@@ -1,19 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { CarIcon, Plus, Search } from "lucide-react";
+import { CarIcon, Plus, } from "lucide-react";
 import { Image } from "@imagekit/next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Filters } from "./filters";
 import { getCars } from "@/lib/actions/cars-action";
+import SearchBar from "./component";
 
 type Car = {
   id: string;
@@ -50,28 +43,8 @@ export default async function Home(props: {
           </p>
 
           {/* Search Bar */}
-          <div className="bg-white dark:bg-zinc-950 rounded-lg p-4 max-w-4xl mx-auto shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Input
-                placeholder="Search by make, model..."
-                className="md:col-span-2"
-              />
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Price Range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0-10000">$0 - $10,000</SelectItem>
-                  <SelectItem value="10000-20000">$10,000 - $20,000</SelectItem>
-                  <SelectItem value="20000-30000">$20,000 - $30,000</SelectItem>
-                  <SelectItem value="30000+">$30,000+</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className="w-full">
-                <Search className="mr-2 h-4 w-4" /> Search
-              </Button>
-            </div>
-          </div>
+          <SearchBar />
+          
         </div>
       </section>
 
