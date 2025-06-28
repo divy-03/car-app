@@ -8,7 +8,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Image } from "@imagekit/next";
 import { Separator } from "@/components/ui/separator";
 import { LogOutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
