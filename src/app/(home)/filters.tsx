@@ -33,7 +33,7 @@ export const Filters = () => {
     const carTypes = carTypeQuery ? carTypeQuery.split("=")[1].split(",") : [];
 
     setActiveFilters(carTypes.map((t:string) => t.toUpperCase()));
-    console.log(carTypes);
+    // console.log(carTypes);
   }, []);
 
   useEffect(() => {

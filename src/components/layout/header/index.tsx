@@ -55,10 +55,13 @@ const HeaderAuth = async () => {
         <Popover>
           <PopoverTrigger>
             <div className="flex items-center gap-2">
-              <Image
-                src={user.image!}
+              <NextImage
+                src={
+                  user.image ??
+                  `https://ui-avatars.com/api/?name=${user.name ?? user.email![0]}`
+                }
                 alt="User Avatar"
-                className="w-8 h-8 rounded-full"
+                className="w-8 h-8 rounded-full cursor-pointer"
                 width={32}
                 height={32}
               />
@@ -71,7 +74,7 @@ const HeaderAuth = async () => {
             <Bookmarks />
             <form action={logout}>
               <button
-                className="flex w-full  hover:bg-muted items-center gap-1 p-1"
+                className="flex w-full cursor-pointer hover:bg-muted items-center gap-1 p-1"
                 type="submit"
               >
                 <LogOutIcon className="h-4 w-4" />
@@ -82,7 +85,7 @@ const HeaderAuth = async () => {
         </Popover>
       ) : (
         <Link href="/api/auth/signin" className="btn btn-primary">
-          <Button>Login</Button>
+          <Button className="cursor-pointer">Login</Button>
         </Link>
       )}
     </div>

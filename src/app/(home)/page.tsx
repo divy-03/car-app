@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CarIcon, Plus, } from "lucide-react";
+import { CarIcon, Plus } from "lucide-react";
 import { Image } from "@imagekit/next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -44,7 +44,6 @@ export default async function Home(props: {
 
           {/* Search Bar */}
           <SearchBar />
-          
         </div>
       </section>
 
@@ -129,16 +128,13 @@ const FeaturedCars = async ({
   }
 
   return cars.map((car: Car) => (
-    <Card
-      key={car.id}
-      className="overflow-hidden hover:scale-101 transition-transform duration-300"
-    >
-      <div className="relative h-48">
+    <Card key={car.id} className="overflow-hidden group">
+      <div className="relative h-48 overflow-hidden">
         <Image
           src={car.images[0]}
           alt={car.name}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-300 group-hover:scale-105 group-hover:-translate-1"
         />
       </div>
       <CardContent className="p-4">

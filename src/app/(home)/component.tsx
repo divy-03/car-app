@@ -65,24 +65,26 @@ const SearchBar = () => {
         className="grid grid-cols-1 md:grid-cols-4 gap-4"
         onSubmit={submitHandler}
       >
-        <Input
-          placeholder="Search by make, model..."
-          className="md:col-span-2"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-          disabled={isLoading}
-        />
-        <Select value={priceRange} onValueChange={setPriceRange}>
-          <SelectTrigger>
-            <SelectValue placeholder="Price Range" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="0-10000">$0 - $10,000</SelectItem>
-            <SelectItem value="10000-20000">$10,000 - $20,000</SelectItem>
-            <SelectItem value="20000-30000">$20,000 - $30,000</SelectItem>
-            <SelectItem value="30000+">$30,000+</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex w-full gap-2 md:col-span-3">
+          <Input
+            placeholder="Search by make, model..."
+            className="flex-[7] min-w-0"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+            disabled={isLoading}
+          />
+          <Select value={priceRange} onValueChange={setPriceRange}>
+            <SelectTrigger className="flex-[3] min-w-0">
+              <SelectValue placeholder="Price Range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="0-10000">$0 - $10,000</SelectItem>
+              <SelectItem value="10000-20000">$10,000 - $20,000</SelectItem>
+              <SelectItem value="20000-30000">$20,000 - $30,000</SelectItem>
+              <SelectItem value="30000+">$30,000+</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <Button
           className="w-full flex items-center cursor-pointer"
           disabled={isLoading}
