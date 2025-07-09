@@ -1,6 +1,6 @@
 "use server";
 
-import { unstable_cache as cache } from "next/cache";
+import { unstable_cache as cache, revalidatePath } from "next/cache";
 import { prisma } from "../prisma";
 import { auth } from "@/auth";
 
@@ -23,6 +23,30 @@ export const getMyProfile = cache(
   [],
   { revalidate: 60 * 60 * 24 }
 );
+
+export const updateProfile = async (
+  currentEmail: string,
+  newName: string,
+  newEmail: string
+) => {
+  if (!currentEmail) throw new Error("Email is required to update profile.");
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const updatedUser = await tx.user.update({
+        where: { email: currentEmail },
+        data: {
+          name: newName,
+          email: newEmail,
+        },
+      });
+      return updatedUser;
+    });
+    revalidatePath("/profile");
+  } catch {
+    throw new Error("Failed to update profile.");
+  }
+};
 
 export const getBookmarkCars = async () => {
   const session = await auth();
