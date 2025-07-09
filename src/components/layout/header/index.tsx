@@ -67,7 +67,7 @@ const HeaderAuth = async () => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-full px-0  py-2">
-            <p className="p-2 font-bold">My Profile</p>
+            <Link href={"/profile"} className="p-2 font-bold mb-3">My Profile</Link>
             <Separator />
 
             <Bookmarks />

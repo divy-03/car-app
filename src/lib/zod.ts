@@ -67,3 +67,20 @@ export const contactSellerSchema = z.object({
 });
 
 export type ContactSellerSchema = z.infer<typeof contactSellerSchema>;
+
+export const userSchema = z.object({
+  name: z
+    .string()
+    .min(2, "User name must be at least 2 characters")
+    .optional()
+    .or(z.literal("")), // optional or empty string
+  email: z.string().email("Valid email required").nonempty("Email is required"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .optional(), // optional in case you're not requiring password always
+  image: z.string().url("Image must be a valid URL").optional(),
+  emailVerified: z.coerce.date().optional(),
+});
+
+export type UserSchema = z.infer<typeof userSchema>;
