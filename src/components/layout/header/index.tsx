@@ -57,7 +57,9 @@ const HeaderAuth = async () => {
               <NextImage
                 src={
                   user.image ??
-                  `https://ui-avatars.com/api/?name=${user.name ?? user.email![0]}`
+                  `https://ui-avatars.com/api/?name=${
+                    user.name ?? user.email![0]
+                  }`
                 }
                 alt="User Avatar"
                 className="w-8 h-8 rounded-full cursor-pointer"
@@ -66,8 +68,10 @@ const HeaderAuth = async () => {
               />
             </div>
           </PopoverTrigger>
-          <PopoverContent className="w-full px-0  py-2">
-            <Link href={"/profile"} className="p-2 font-bold mb-3">My Profile</Link>
+          <PopoverContent className="w-full px-0 py-2">
+            <Link href={"/profile"} className="p-2 font-bold mb-3">
+              Profile
+            </Link>
             <Separator />
 
             <Bookmarks />

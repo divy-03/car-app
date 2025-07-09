@@ -42,7 +42,7 @@ export const updateProfile = async (
       });
       return updatedUser;
     });
-    revalidatePath("/profile");
+    revalidatePath("/");
   } catch {
     throw new Error("Failed to update profile.");
   }

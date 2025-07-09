@@ -50,7 +50,10 @@ export default async function Home(props: {
       {/* Featured Cars Section */}
       <section className="max-w-7xl mx-auto py-16 px-4">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold">Featured Cars</h2>
+          <div className="flex gap-2 justify-between items-center">
+            <h2 className="text-3xl font-bold">Featured Cars</h2>
+            <Link href={"/cars"} className="mt-2 hover:underline">View All</Link>
+          </div>
           <div className="flex gap-2">
             <Filters />
 
