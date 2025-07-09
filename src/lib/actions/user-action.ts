@@ -43,7 +43,7 @@ export const updateProfile = async (
       return updatedUser;
     });
     revalidatePath("/profile");
-  } catch (error) {
+  } catch {
     throw new Error("Failed to update profile.");
   }
 };

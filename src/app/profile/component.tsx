@@ -19,7 +19,6 @@ import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 
 export function EditForm({ user }: { user: UserSchema | null }) {
-  if (!user) return <div>User not found</div>;
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(user?.name ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
@@ -32,7 +31,8 @@ export function EditForm({ user }: { user: UserSchema | null }) {
       setLoading(true);
       if (!email) throw new Error("Email is required");
 
-      const data = await updateProfile(user?.email, name, email);
+      if (!user?.email) return toast.error("User email is missing!");
+      const data = await updateProfile(user.email, name, email);
 
       // if (!data) throw new Error("Falied to update");
       console.log(data);
@@ -44,6 +44,8 @@ export function EditForm({ user }: { user: UserSchema | null }) {
       setLoading(false);
     }
   };
+
+  if (!user) return <div>User not found</div>;
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
